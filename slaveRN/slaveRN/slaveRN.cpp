@@ -28,15 +28,15 @@ int main(int argc, char* argv[]) {
 	MPI_Init(&argc, &argv);
 
 	MPI_Comm parent;
-	MPI_Comm_get_parent(&parent);
+	MPI_Comm_get_parent(&parent); // retorna o comunicador com o pai
 
-	if (parent == MPI_COMM_NULL) {
+	if (parent == MPI_COMM_NULL) { 
 		printf("Erro: Nenhum processo pai encontrado!\n");
 		MPI_Abort(MPI_COMM_WORLD, 1);
 	}
 
 	int rank;
-	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	MPI_Comm_rank(parent, &rank);
 
 	// Receber indivíduo e fitness
 	double individuo[10];
@@ -45,12 +45,11 @@ int main(int argc, char* argv[]) {
 	MPI_Recv(&fitness, 1, MPI_DOUBLE, 0, 1, parent, MPI_STATUS_IGNORE);
 
 	char log_msg[100];
-	sprintf_s(log_msg, "Aqui eh o trabalhador %d! Recebi um individuo e fitness: %.2f\n", rank, fitness);
+	sprintf_s(log_msg, "Aqui eh o trabalhador %d! Recebi o individuo %p e fitness: %.2f\n", rank, individuo, fitness);
 	
 	MPI_Send(log_msg, strlen(log_msg) + 1, MPI_CHAR, 0, 2, parent);
-	MPI_Finalize();
-	while (1) { ; }
 
+	getchar(); // para a execução
 
 	double sigmoid(double);
 	std::string result = "";
@@ -71,7 +70,7 @@ int main(int argc, char* argv[]) {
 	double errlimit = 0.001;
 	double alpha = 0.1, beta = 0.1;
 	int loop = 0;
-	int times = 50000;
+	int times = 500;
 	int i, j, m;
 	double max, min;
 	double sumtemp;
@@ -185,9 +184,9 @@ int main(int argc, char* argv[]) {
 		if (error < errlimit)
 			break;
 
-		printf("The %d th training, error: %f\n", loop, error);
+		//printf("%d: The %d th training, error: %f\n", rank, loop, error);
 	}
-
+	MPI_Finalize();
 }
 
 // sigmoid serves as avtivation function
