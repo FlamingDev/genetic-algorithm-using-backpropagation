@@ -46,6 +46,9 @@
 #define MNUNI  7
 #define PMUTAC 50
 
+/* Redes neurais */
+#define NUM_WORKERS 4
+
 /* ****************FUNCOES TESTE IMPLEMENTADAS *************** */
 
 int Aval = 0;
@@ -720,27 +723,28 @@ int main(int argc, char* argv[])
 {
     MPI_Init(&argc, &argv);
     MPI_Comm intercomm;
-    
-    int num_workers = 4;
+    const char* path = "C:/Users/T-GAMER/Desktop/faculdade/Comp Paralela/slaveRN/x64/Debug/slaveRN.exe";;
+    int workers_ids[NUM_WORKERS];
 
-    MPI_Comm_spawn("C:/Users/T-GAMER/Desktop/faculdade/Comp Paralela/slaveRN/x64/Debug/slaveRN.exe", MPI_ARGV_NULL, num_workers, MPI_INFO_NULL, 0, MPI_COMM_WORLD, &intercomm, MPI_ERRCODES_IGNORE);
+    MPI_Comm_spawn(path, MPI_ARGV_NULL,NUM_WORKERS, MPI_INFO_NULL, 0, MPI_COMM_WORLD, &intercomm, workers_ids);
 
-    // Enviar indivíduo e fitness para a rede neural
+    // individuo e fitness teste
     double individuo[10] = { 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 };
-    double fitness = rand() % 101 / 100.;
+    double fitness = 0.5;
 
-    for (int i = 0; i < num_workers; i++) {
-        MPI_Send(individuo, 10, MPI_DOUBLE, i, 0, intercomm);
-        MPI_Send(&fitness, 1, MPI_DOUBLE, i, 1, intercomm);
+
+    for (int i = 0; i < NUM_WORKERS; i++) { // envia individuo e fitness para todas RNs spawnadas
+        MPI_Send(individuo, 10, MPI_DOUBLE, i, 0, intercomm); // tag 0 para individuo
+        MPI_Send(&fitness, 1, MPI_DOUBLE, i, 1, intercomm); // tag 1 para fitness
     }
 
     printf("Mestre enviou os dados para os trabalhadores.\n");
 
-    char log_msg[100];
+    char msg[100];
 
-    for (int i = 0; i < num_workers; i++) {
-        MPI_Recv(log_msg, 100, MPI_CHAR, MPI_ANY_SOURCE, 2, intercomm, MPI_STATUS_IGNORE);
-        printf("%s", log_msg);
+    for (int i = 0; i < NUM_WORKERS; i++) {
+        MPI_Recv(msg, 100, MPI_CHAR, i, 2, intercomm, MPI_STATUS_IGNORE); // tag 2 para mensagens
+        printf("%s", msg);
         fflush(stdout);
     }
 
@@ -776,9 +780,9 @@ int main(int argc, char* argv[])
     semente = atoi(argv[3]);
 #endif
 
-#ifdef NOLINHA
+//#ifdef NOLINHA
     saida = stdout;
-#endif
+//#endif
 
     // randomico ou não 
     srand((unsigned)time(0));
@@ -834,7 +838,7 @@ int main(int argc, char* argv[])
     printf("\n\t Minimo = %.16f; \n\t Na ger = %d; \n\t mutacoes = %d \n\t ; aval = %d\n\t; (%.4f, %.4f)\n",
         P.indiv[P.melhor].fit, P.gerMelhor, P.numMuta, Aval, med, dvp);
     printf("\n\t em tempo = %.4f, ", float((end - start) / CLOCKS_PER_SEC));
-    getchar();
+    fflush(stdout);
 #endif
 
 #ifdef DUMP
@@ -850,7 +854,6 @@ int main(int argc, char* argv[])
     }
     fprintf(saida, "\n\tMelhor=%.10f,Media=%.10f, Desvio=%.10f", P.indiv[P.melhor].fit, med, dvp);
 #endif
-
     MPI_Finalize();
-
+    return 0;
 }
