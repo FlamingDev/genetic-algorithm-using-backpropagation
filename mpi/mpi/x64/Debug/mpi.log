@@ -1,0 +1,41 @@
+﻿  mpi.cpp
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(282,17): warning C4101: 'temp': variável local não referenciada
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(337,18): warning C4101: 'i': variável local não referenciada
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(354,18): warning C4101: 'i': variável local não referenciada
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(456,31): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(469,30): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(474,17): warning C4244: '=': conversão de 'int' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(477,34): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(478,55): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(480,41): warning C4305: '=': truncamento de 'double' para 'float'
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(481,27): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(486,17): warning C4244: '=': conversão de 'int' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(489,34): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(491,55): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(493,41): warning C4305: '=': truncamento de 'double' para 'float'
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(494,27): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(467,11): warning C4101: 'iExponent': variável local não referenciada
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(464,12): warning C4101: 'j': variável local não referenciada
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(464,9): warning C4101: 'i': variável local não referenciada
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(507,84): warning C4244: 'argumento': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(507,64): warning C4244: 'argumento': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(529,18): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(530,53): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(531,25): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(532,24): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(533,13): warning C4244: '=': conversão de 'float' para 'int', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(546,32): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(524,15): warning C4101: 'k': variável local não referenciada
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(526,26): warning C4101: 'par': variável local não referenciada
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(584,22): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(593,22): warning C4244: '=': conversão de 'double' para 'int', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(601,22): warning C4244: '=': conversão de 'double' para 'int', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(614,25): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(628,25): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(675,14): warning C4244: '=': conversão de 'double' para 'int', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(687,69): warning C4244: 'argumento': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(687,57): warning C4244: 'argumento': conversão de 'double' para 'float', possível perda de dados
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(666,15): warning C4101: 'k': variável local não referenciada
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(760,12): warning C4101: 'j': variável local não referenciada
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\mpi\mpi.cpp(762,9): warning C4101: 'semente': variável local não referenciada
+  mpi.vcxproj -> C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\mpi\x64\Debug\mpi.exe
