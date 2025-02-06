@@ -1,0 +1,3 @@
+﻿  slaveRN.cpp
+C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\slaveRN\slaveRN\slaveRN.cpp(50,36): warning C4267: 'argumento': conversão de 'size_t' para 'int', possível perda de dados
+  slaveRN.vcxproj -> C:\Users\T-GAMER\Desktop\faculdade\Comp Paralela\slaveRN\x64\Debug\slaveRN.exe
