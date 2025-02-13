@@ -14,15 +14,19 @@
 
 #include <stdio.h>
 #include <string>
-//#include <afx.h>
+#include <iostream>
 #include <mpi.h>
 #include <math.h>
 #include <stdlib.h>
 
-#define InputN 1000		// TAMANHO DO INDIVIDUO number of neurons in the input layer
+#define MAXVAR 10  
+#define MAXPOP 100  
+#define NUM_WORKERS 4
+
+#define InputN MAXVAR		// number of neurons in the input layer
 #define HN 10			// number of neurons in the hidden layer
 #define OutN 1			// number of neurons in the output layer
-#define datanum 1		// QUANTOS INDIVIDUOS POR VEZ? number of training samples
+#define datanum 500		// number of training samples
 
 int main(int argc, char* argv[]) {
 	MPI_Init(&argc, &argv);
@@ -36,20 +40,16 @@ int main(int argc, char* argv[]) {
 	}
 
 	int rank;
-	MPI_Comm_rank(parent, &rank); // retorna o rank do comunicador
-
-	// Receber indivíduo e fitness
-	double individuo[10];
+	MPI_Comm_rank(parent, &rank);
+	double cromossomo[MAXVAR];
 	double fitness;
-	MPI_Recv(individuo, 10, MPI_DOUBLE, 0, 0, parent, MPI_STATUS_IGNORE);
-	MPI_Recv(&fitness, 1, MPI_DOUBLE, 0, 1, parent, MPI_STATUS_IGNORE);
 
-	char log_msg[100];
-	sprintf_s(log_msg, "Aqui eh o trabalhador %d! Recebi o individuo %p e fitness: %.2f\n", rank, individuo, fitness);
+	MPI_Recv(cromossomo, MAXVAR, MPI_DOUBLE, 0, 0, parent, MPI_STATUS_IGNORE);
+	MPI_Recv(&fitness, 1, MPI_DOUBLE, 0, 0, parent, MPI_STATUS_IGNORE);
 	
-	MPI_Send(log_msg, strlen(log_msg) + 1, MPI_CHAR, 0, 2, parent);
-
-	getchar(); // para a execução
+	char log_msg[100];
+	sprintf_s(log_msg, "Aqui eh o trabalhador %d! Recebi o individuo %p e fitness: %.2f\n", rank, cromossomo, fitness);
+	MPI_Send(log_msg, strlen(log_msg) + 1, MPI_CHAR, 0, 0, parent);
 
 	double sigmoid(double);
 	std::string result = "";
@@ -189,7 +189,7 @@ int main(int argc, char* argv[]) {
 	MPI_Finalize();
 }
 
-// sigmoid serves as activation function
+// sigmoid serves as avtivation function
 double sigmoid(double x) {
 	return(1.0 / (1.0 + exp(-x)));
 }
