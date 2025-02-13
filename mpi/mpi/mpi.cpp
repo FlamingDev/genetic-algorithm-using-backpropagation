@@ -9,11 +9,12 @@
 #define ANSI
 
 #ifndef ANSI
-
+/*#pragma hdrstop
 #include <condefs.h>*/
 #endif
 
 #include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -22,7 +23,7 @@
 
 /* Problema: TESTAR ras ros gri sch sph  */
 #define FUNCAO ras
-#define MAXVAR 1000
+#define MAXVAR 10
 #define SOLUCAO 0.0F
 
 #define PI 3.14159265358979F
@@ -30,8 +31,8 @@
 /* Persistencia */
 #define MAXGER 250000
 #define NUMCRU 100
-#define TAXERR 1.0e-3
-#define MAXAVA 10000000
+#define TAXERR 1.0e-10
+#define MAXAVA 100000
 
 /* Populacao*/
 #define PATUAL 10
@@ -44,7 +45,7 @@
 
 /* Mutacao */
 #define MNUNI  7
-#define PMUTAC 5
+#define PMUTAC 50
 
 /* Redes neurais */
 #define NUM_WORKERS 4
@@ -609,7 +610,33 @@ void CruzaBlend(Populacao* p, int pai, int mae, int filho, float alfa)
     }
 
 }
+void CruzaGeom(Populacao* p, int pai, int mae, int filho)
+{
+    int i;
+    float alfa;
 
+    alfa = rand() % 101 / 100.;
+
+    for (i = 0;i < p->tamInd; i++) {
+        p->indiv[filho].var[i] =
+            pow(p->indiv[pai].var[i], alfa) * pow(p->indiv[mae].var[i], 1 - alfa);
+    }
+
+}
+
+void CruzaEsfe(Populacao* p, int pai, int mae, int filho)
+{
+    int i;
+    float alfa;
+
+    alfa = rand() % 101 / 100.;
+
+    for (i = 0;i < p->tamInd; i++) {
+        p->indiv[filho].var[i] =
+            sqrt(alfa * pow(p->indiv[pai].var[i], 2) + (1 - alfa) * pow(p->indiv[mae].var[i], 2));
+    }
+
+}
 
 void AtualizaPop(Populacao* p, int pos, double fit, int ger)
 {
@@ -639,7 +666,56 @@ void AtualizaPop(Populacao* p, int pos, double fit, int ger)
 }
 
 /****/
+void IniciaSct(Populacao* p, int m, int n, int nfun) {
+    int i, j, k;
+    int pior, melhor;
+    int ipd, dim;
+    double inf, sup, pas;
+    double soma, fit;
+    static double lista[MAXVAR];
 
+    inf = limFixos[nfun].inf;
+    sup = limFixos[nfun].sup;
+    ipd = pow(m, 1.0F / (n));
+    pas = (double)(sup - inf) / ipd;
+    for (i = 0;i < n;i++)
+        lista[i] = inf;
+    dim = 0;
+    i = 0;
+    soma = 0;
+    pior = 0;
+    melhor = 0;
+    while (i < m)
+    {
+        for (j = 0; j < n; j++)
+            p->indiv[i].var[j] = (double)randgen(lista[j], lista[j] + pas);
+        lista[dim] = (lista[dim] + 2 * pas > sup ? sup - pas : lista[dim] + pas);
+        fit = funccod[nfun](p->indiv[i].var, n);
+        p->indiv[i].fit = fit;
+        if (fit > p->indiv[pior].fit)
+            pior = i;
+        if (fit < p->indiv[melhor].fit)
+            melhor = i;
+        soma += (fit);
+        if ((++i % ipd) == 0) {
+            do {
+                lista[dim] = limFixos[nfun].inf;
+                dim++;
+                lista[dim] = lista[dim] + pas;
+            } while (lista[dim] + pas > sup && dim < MAXVAR - 1);
+            if (lista[dim] + pas > sup)
+                lista[dim] = sup - pas;
+            dim = 0;
+        }
+    }
+    p->tamPop = m;
+    p->tamInd = n;
+    p->sumFit = soma;
+    p->melhor = melhor;
+    p->pior = pior;
+    p->numMuta = 0;
+    p->iguais = 0;
+}
 
 
 /*******************************************************************/
@@ -647,14 +723,18 @@ void AtualizaPop(Populacao* p, int pos, double fit, int ger)
 int main(int argc, char* argv[])
 {
     MPI_Init(&argc, &argv);
-    MPI_Comm intercomm;
-    const char* path = "C:/Users/m1r9b/source/repos/genetic-algorithm-using-backpropagation/slaveRN/x64/Debug/slaveRN.exe";
+
+    MPI_Comm intercomm; // comunicação com os escravos
+    MPI_Comm world = MPI_COMM_WORLD; 
+    int rank;
+
+    const char* path = "C:/Users/T-GAMER/Desktop/faculdade/Comp Paralela/slaveRN/x64/Debug/slaveRN.exe";
     int workers_ids[NUM_WORKERS];
 
-    MPI_Comm_spawn(path, MPI_ARGV_NULL,NUM_WORKERS, MPI_INFO_NULL, 0, MPI_COMM_WORLD, &intercomm, workers_ids);
+    MPI_Comm_spawn(path, 0,NUM_WORKERS, MPI_INFO_NULL, 0, MPI_COMM_WORLD, &intercomm, workers_ids);
 
     // individuo e fitness teste
-    double individuo[10] = { 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 };
+    /*double individuo[8] = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8};
     double fitness = 0.5;
 
 
@@ -671,7 +751,7 @@ int main(int argc, char* argv[])
         MPI_Recv(msg, 100, MPI_CHAR, i, 2, intercomm, MPI_STATUS_IGNORE); // tag 2 para mensagens
         printf("%s", msg);
         fflush(stdout);
-    }
+    }*/
 
     clock_t start, end;
 
@@ -713,7 +793,20 @@ int main(int argc, char* argv[])
     srand((unsigned)time(0));
 
     IniciaPop(&P, MAXPOP, MAXVAR, funcao);
-    erro = (double)P.indiv[P.melhor].fit - SOLUCAO;
+    
+    for (int i = 0; i < NUM_WORKERS; i++) {
+        MPI_Send(P.indiv[i].var, MAXVAR, MPI_DOUBLE, i, 0, intercomm);
+        MPI_Send(&P.indiv[i].fit, 1, MPI_DOUBLE, i, 0, intercomm);
+    }
+    char msg[100] = {};
+
+    for (int i = 0; i < NUM_WORKERS; i++) {
+        MPI_Recv(msg, 100, MPI_CHAR, i, 0, intercomm, MPI_STATUS_IGNORE);
+        printf("%s", msg);
+    }
+
+    Cromossomo melhor = P.indiv[P.melhor];
+    erro = melhor.fit - SOLUCAO;
 
     printf("\n***   (%s) por ACMO/CAP/LAC/INPE    ***", GARE);
     printf("\n      Evoluindo %s com %d vars", limFixos[funcao].nom, MAXVAR);
