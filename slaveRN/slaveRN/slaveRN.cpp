@@ -26,7 +26,7 @@
 #define InputN MAXVAR		// number of neurons in the input layer
 #define HN 10			// number of neurons in the hidden layer
 #define OutN 1			// number of neurons in the output layer
-#define datanum 500		// number of training samples
+#define datanum 1		// number of training samples
 
 int main(int argc, char* argv[]) {
 	MPI_Init(&argc, &argv);
@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
 	double errlimit = 0.001;
 	double alpha = 0.1, beta = 0.1;
 	int loop = 0;
-	int times = 500;
+	int times = 50;
 	int i, j, m;
 	double max, min;
 	double sumtemp;
@@ -86,9 +86,9 @@ int main(int argc, char* argv[]) {
 	// You can use your own data!!!
 	for (m = 0; m < datanum; m++) {
 		for (i = 0; i < InputN; i++)
-			data[m].input[i] = (double)rand() / 32767.0;
+			data[m].input[i] = cromossomo[i]; // copiando o cromossomo para a struct data
 		for (i = 0;i < OutN;i++)
-			data[m].teach[i] = (double)rand() / 32767.0;
+			data[m].teach[i] = fitness; // uma unica saída esperada
 	}
 
 	// Initializition
@@ -184,7 +184,7 @@ int main(int argc, char* argv[]) {
 		if (error < errlimit)
 			break;
 
-		//printf("%d: The %d th training, error: %f\n", rank, loop, error);
+		printf("%d: The %d th training, error: %f\n", rank, loop, fitness - y_out[0]);
 	}
 	MPI_Finalize();
 }
